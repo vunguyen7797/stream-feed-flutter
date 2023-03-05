@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
 
 /// Complete Tutorial: https://getstream.io/activity-feeds/sdk/flutter/tutorial/
@@ -629,21 +628,21 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
                 children: [
                   IconButton(
                     onPressed: () async {
-                      final ImagePicker _picker = ImagePicker();
-                      final XFile? image = await _picker.pickImage(
-                        source: ImageSource.gallery,
-                        maxHeight: 600,
-                        maxWidth: 300,
-                        imageQuality: 50,
-                      );
-
-                      if (image != null) {
-                        await context.feedUploadController
-                            .uploadImage(AttachmentFile(path: image.path));
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Cancelled')));
-                      }
+                      // final ImagePicker _picker = ImagePicker();
+                      // final XFile? image = await _picker.pickImage(
+                      //   source: ImageSource.gallery,
+                      //   maxHeight: 600,
+                      //   maxWidth: 300,
+                      //   imageQuality: 50,
+                      // );
+                      //
+                      // if (image != null) {
+                      //   await context.feedUploadController
+                      //       .uploadImage(AttachmentFile(path: image.path));
+                      // } else {
+                      //   ScaffoldMessenger.of(context).showSnackBar(
+                      //       const SnackBar(content: Text('Cancelled')));
+                      // }
                     },
                     icon: const Icon(Icons.file_copy),
                   ),

@@ -38,6 +38,13 @@ dependencies:
     path: '../'
   image_picker: ^0.8.4+4
 
+dependency_overrides:
+  stream_feed:
+    git:
+      url: https://github.com/vunguyen7797/stream-feed-flutter
+      path: packages/stream_feed/
+      ref: dulichdee
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

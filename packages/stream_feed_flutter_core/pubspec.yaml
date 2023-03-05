@@ -20,3 +20,10 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   mocktail: ^0.3.0
+
+dependency_overrides:
+  stream_feed:
+    git:
+      url: https://github.com/vunguyen7797/stream-feed-flutter
+      path: packages/stream_feed/
+      ref: dulichdee
