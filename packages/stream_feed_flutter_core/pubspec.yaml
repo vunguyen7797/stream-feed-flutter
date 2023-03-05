@@ -15,7 +15,11 @@ dependencies:
     sdk: flutter
   meta: ^1.7.0
   rxdart: ^0.27.1
-  stream_feed: ^0.6.0+2
+  stream_feed:
+    git:
+      url: https://github.com/vunguyen7797/stream-feed-flutter
+      path: packages/stream_feed
+      ref: dulichdee
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -25,5 +29,5 @@ dependency_overrides:
   stream_feed:
     git:
       url: https://github.com/vunguyen7797/stream-feed-flutter
-      path: packages/stream_feed/
+      path: packages/stream_feed
       ref: dulichdee
