@@ -34,6 +34,7 @@ class StreamHttpClient {
         'stream-auth-type': 'jwt',
         'x-stream-client': this.options._userAgent,
       }
+      ..options.contentType = 'application/json'
       ..interceptors.addAll([
         if (logger != null && logger.level != Level.OFF)
           LoggingInterceptor(
