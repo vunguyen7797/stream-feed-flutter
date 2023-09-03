@@ -51,6 +51,7 @@ NotificationGroup<T> _$NotificationGroupFromJson<T>(
           const DateTimeUTCConverter().fromJson(json['updated_at'] as String?),
       isRead: json['is_read'] as bool?,
       isSeen: json['is_seen'] as bool?,
+      verb: json['verb'] as String?
     );
 
 Map<String, dynamic> _$NotificationGroupToJson<T>(
@@ -66,4 +67,5 @@ Map<String, dynamic> _$NotificationGroupToJson<T>(
       'updated_at': const DateTimeUTCConverter().toJson(instance.updatedAt),
       'is_read': instance.isRead,
       'is_seen': instance.isSeen,
+      'verb': instance.verb,
     };

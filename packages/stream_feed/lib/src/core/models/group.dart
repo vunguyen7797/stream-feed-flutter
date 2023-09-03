@@ -72,6 +72,7 @@ class NotificationGroup<T> extends Group<T> {
     DateTime? updatedAt,
     this.isRead,
     this.isSeen,
+    this.verb,
   }) : super(
           id: id,
           group: group,
@@ -93,6 +94,8 @@ class NotificationGroup<T> extends Group<T> {
 
   /// True if the notification group is seen.
   final bool? isSeen;
+
+  final String? verb;
 
   @override
   List<Object?> get props => [
