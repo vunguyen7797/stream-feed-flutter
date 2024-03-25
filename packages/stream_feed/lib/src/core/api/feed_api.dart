@@ -152,7 +152,7 @@ class FeedAPI {
     checkArgument(limit >= 0, 'Limit should be a non-negative number');
     checkArgument(offset >= 0, 'Offset should be a non-negative number');
 
-    final result = await _client.get<Map>(
+    final result = await _client.get(
       Routes.buildFeedUrl(feed, 'follows'),
       headers: {'Authorization': '$token'},
       queryParameters: {
@@ -161,7 +161,7 @@ class FeedAPI {
         if (feedIds.isNotEmpty) 'filter': feedIds.map((it) => it.toString()).join(',')
       },
     );
-    final data = (result.data!['results'] as List).map((e) => Follow.fromJson(e)).toList(growable: false);
+    final data = (result.data['results'] as List).map((e) => Follow.fromJson(e)).toList(growable: false);
     return data;
   }
 
