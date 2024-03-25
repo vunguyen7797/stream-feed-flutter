@@ -66,7 +66,7 @@ class FeedAPI {
       'Activity copy limit should be less then ${Default.maxActivityCopyLimit}',
     );
     return _client.post(
-      Routes.buildFeedUrl(sourceFeed, 'following'),
+      Routes.buildFeedUrl(sourceFeed, 'follows'),
       headers: {'Authorization': '$token'},
       data: {
         'target': '$targetFeed',
