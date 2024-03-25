@@ -32,9 +32,7 @@ class FeedAPI {
       headers: {'Authorization': '$token'},
       data: {'activities': activities},
     );
-    final data = (result.data!['activities'] as List)
-        .map((e) => Activity.fromJson(e))
-        .toList(growable: false);
+    final data = (result.data!['activities'] as List).map((e) => Activity.fromJson(e)).toList(growable: false);
     return data;
   }
 
@@ -62,8 +60,7 @@ class FeedAPI {
     int activityCopyLimit,
   ) async {
     checkArgument(sourceFeed != targetFeed, "Feed can't follow itself");
-    checkArgument(activityCopyLimit >= 0,
-        'Activity copy limit should be a non-negative number');
+    checkArgument(activityCopyLimit >= 0, 'Activity copy limit should be a non-negative number');
     checkArgument(
       activityCopyLimit <= Default.maxActivityCopyLimit,
       'Activity copy limit should be less then ${Default.maxActivityCopyLimit}',
@@ -102,13 +99,11 @@ class FeedAPI {
       headers: {'Authorization': '$token'},
       queryParameters: options,
     );
-    return PaginatedActivities<A, Ob, T, Or>.fromJson(
-        response.data as Map<String, dynamic>);
+    return PaginatedActivities<A, Ob, T, Or>.fromJson(response.data as Map<String, dynamic>);
   }
 
   /// Retrieve paginated activities
-  Future<PaginatedActivitiesGroup<A, Ob, T, Or>>
-      paginatedActivitiesGroup<A, Ob, T, Or>(
+  Future<PaginatedActivitiesGroup<A, Ob, T, Or>> paginatedActivitiesGroup<A, Ob, T, Or>(
     Token token,
     FeedId feed,
     Map<String, Object?> options,
@@ -118,8 +113,7 @@ class FeedAPI {
       headers: {'Authorization': '$token'},
       queryParameters: options,
     );
-    return PaginatedActivitiesGroup<A, Ob, T, Or>.fromJson(
-        response.data as Map<String, dynamic>);
+    return PaginatedActivitiesGroup<A, Ob, T, Or>.fromJson(response.data as Map<String, dynamic>);
   }
 
   /// Retrieve the number of followers and following feed stats of the current
@@ -130,8 +124,8 @@ class FeedAPI {
     Token token,
     Map<String, Object?> options,
   ) async {
-    final response = await _client.get<Map>(Routes.statsFollowUrl,
-        headers: {'Authorization': '$token'}, queryParameters: options);
+    final response =
+        await _client.get<Map>(Routes.statsFollowUrl, headers: {'Authorization': '$token'}, queryParameters: options);
     return FollowStats.fromJson(response.data!['results']);
   }
 
@@ -159,18 +153,15 @@ class FeedAPI {
     checkArgument(offset >= 0, 'Offset should be a non-negative number');
 
     final result = await _client.get<Map>(
-      Routes.buildFeedUrl(feed, 'following'),
+      Routes.buildFeedUrl(feed, 'follows'),
       headers: {'Authorization': '$token'},
       queryParameters: {
         'limit': limit,
         'offset': offset,
-        if (feedIds.isNotEmpty)
-          'filter': feedIds.map((it) => it.toString()).join(',')
+        if (feedIds.isNotEmpty) 'filter': feedIds.map((it) => it.toString()).join(',')
       },
     );
-    final data = (result.data!['results'] as List)
-        .map((e) => Follow.fromJson(e))
-        .toList(growable: false);
+    final data = (result.data!['results'] as List).map((e) => Follow.fromJson(e)).toList(growable: false);
     return data;
   }
 
@@ -191,13 +182,10 @@ class FeedAPI {
       queryParameters: {
         'limit': limit,
         'offset': offset,
-        if (feedIds.isNotEmpty)
-          'filter': feedIds.map((it) => it.toString()).join(',')
+        if (feedIds.isNotEmpty) 'filter': feedIds.map((it) => it.toString()).join(',')
       },
     );
-    final data = (result.data['results'] as List)
-        .map((e) => Follow.fromJson(e))
-        .toList(growable: false);
+    final data = (result.data['results'] as List).map((e) => Follow.fromJson(e)).toList(growable: false);
     return data;
   }
 
@@ -214,8 +202,7 @@ class FeedAPI {
       );
 
   /// Removes the activity by activityId
-  Future<Response> removeActivityById(Token token, FeedId feed, String id) =>
-      _client.delete(
+  Future<Response> removeActivityById(Token token, FeedId feed, String id) => _client.delete(
         Routes.buildFeedUrl(feed, id),
         headers: {'Authorization': '$token'},
       );
@@ -236,8 +223,7 @@ class FeedAPI {
   /// Update Activities By `foreignId`.
   ///
   /// Note: the keys of set and unset must not be identical.
-  Future<List<Activity>> updateActivitiesByForeignId(
-      Token token, Iterable<ActivityUpdate> updates) async {
+  Future<List<Activity>> updateActivitiesByForeignId(Token token, Iterable<ActivityUpdate> updates) async {
     checkArgument(updates.isNotEmpty, 'No updates');
     checkArgument(updates.length <= 100, 'Maximum length is 100');
     for (final update in updates) {
@@ -253,17 +239,14 @@ class FeedAPI {
       headers: {'Authorization': '$token'},
       data: {'changes': updates},
     );
-    final data = (result.data!['activities'] as List)
-        .map((e) => Activity.fromJson(e))
-        .toList(growable: false);
+    final data = (result.data!['activities'] as List).map((e) => Activity.fromJson(e)).toList(growable: false);
     return data;
   }
 
   /// Update Activities By `id`.
   ///
   /// Note: the keys of set and unset must not be identical.
-  Future<List<Activity>> updateActivitiesById(
-      Token token, Iterable<ActivityUpdate> updates) async {
+  Future<List<Activity>> updateActivitiesById(Token token, Iterable<ActivityUpdate> updates) async {
     checkArgument(updates.isNotEmpty, 'No updates');
     checkArgument(updates.length <= 100, 'Maximum length is 100');
     for (final update in updates) {
@@ -278,17 +261,14 @@ class FeedAPI {
       headers: {'Authorization': '$token'},
       data: {'changes': updates},
     );
-    final data = (result.data!['activities'] as List)
-        .map((e) => Activity.fromJson(e))
-        .toList(growable: false);
+    final data = (result.data!['activities'] as List).map((e) => Activity.fromJson(e)).toList(growable: false);
     return data;
   }
 
   /// Update [Activity.foreignId] By `foreignId`.
   ///
   /// Note: the keys of set and unset must not be identical.
-  Future<Activity> updateActivityByForeignId(
-      Token token, ActivityUpdate update) async {
+  Future<Activity> updateActivityByForeignId(Token token, ActivityUpdate update) async {
     checkNotNull(update.foreignId, 'No activity to update');
     checkNotNull(update.time, 'Missing timestamp');
     checkArgument(
@@ -307,8 +287,7 @@ class FeedAPI {
   /// Partial update by activity ID.
   ///
   /// Note: the keys of set and unset must not be identical.
-  Future<Activity> updateActivityById(
-      Token token, ActivityUpdate update) async {
+  Future<Activity> updateActivityById(Token token, ActivityUpdate update) async {
     checkNotNull(update.id, 'No activity to update');
     checkArgument(
       update.set?.isNotEmpty == true || update.unset?.isNotEmpty == true,
@@ -343,11 +322,9 @@ class FeedAPI {
       'Activity is required to have foreign ID attribute',
     );
     checkNotNull(update.time, 'Activity is required to have time attribute');
-    final modification =
-        replace.isEmpty && (add.isNotEmpty || remove.isNotEmpty);
+    final modification = replace.isEmpty && (add.isNotEmpty || remove.isNotEmpty);
     final replacement = replace.isNotEmpty && add.isEmpty && remove.isEmpty;
-    checkArgument(modification || replacement,
-        "Can't replace and modify activity to targets at the same time");
+    checkArgument(modification || replacement, "Can't replace and modify activity to targets at the same time");
 
     return _client.post(
       Routes.activityUpdateUrl,
