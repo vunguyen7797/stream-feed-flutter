@@ -713,8 +713,7 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
         }
         activitiesManager.paginatedParams[feedGroup] = nextParams;
       } catch (e) {
-        // TODO:(gordon) add logs
-        debugPrint('Error parsing next: $e');
+        debugPrint('[Get Stream Feed]: Error parsing next params: $e');
       }
       if (activitiesResponse.results != null) {
         final allActivities = <GenericEnrichedActivity<A, Ob, T, Or>>{
@@ -913,7 +912,7 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
     final nextParams = paginatedParamsActivities(feedGroup: feedGroup);
 
     if (nextParams == null) {
-      debugPrint('Next params are null');
+      debugPrint('[Get Stream Feed]: Next params are null');
       return;
     }
 
