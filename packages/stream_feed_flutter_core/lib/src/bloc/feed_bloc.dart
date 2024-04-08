@@ -18,8 +18,7 @@ class FeedBloc extends GenericFeedBloc<User, String, String, String> {
     StreamAnalytics? analyticsClient,
     UploadController? uploadController,
     ActivitiesManager<User, String, String, String>? activitiesManager,
-    GroupedActivitiesManager<User, String, String, String>?
-        groupedActivitiesManager,
+    GroupedActivitiesManager<User, String, String, String>? groupedActivitiesManager,
     ReactionsManager? reactionsManager,
   }) : super(
           client: client,
@@ -46,10 +45,8 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
     GroupedActivitiesManager<A, Ob, T, Or>? groupedActivitiesManager,
     ReactionsManager? reactionsManager,
   })  : uploadController = uploadController ?? UploadController(client),
-        activitiesManager =
-            activitiesManager ?? ActivitiesManager<A, Ob, T, Or>(),
-        groupedActivitiesManager = groupedActivitiesManager ??
-            GroupedActivitiesManager<A, Ob, T, Or>(),
+        activitiesManager = activitiesManager ?? ActivitiesManager<A, Ob, T, Or>(),
+        groupedActivitiesManager = groupedActivitiesManager ?? GroupedActivitiesManager<A, Ob, T, Or>(),
         reactionsManager = reactionsManager ?? ReactionsManager();
 
   /// The underlying Stream Feed client instance.
@@ -100,106 +97,85 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
   /* STREAMS */
 
   /// The current activities list as a stream.
-  Stream<List<GenericEnrichedActivity<A, Ob, T, Or>>>? getActivitiesStream(
-          String feedGroup) =>
+  Stream<List<GenericEnrichedActivity<A, Ob, T, Or>>>? getActivitiesStream(String feedGroup) =>
       activitiesManager.getStream(feedGroup);
 
   /// The current activities list as a stream.
-  Stream<List<Group<GenericEnrichedActivity<A, Ob, T, Or>>>>?
-      getGroupedActivitiesStream(String feedGroup) =>
-          groupedActivitiesManager.getStream(feedGroup);
+  Stream<List<Group<GenericEnrichedActivity<A, Ob, T, Or>>>>? getGroupedActivitiesStream(String feedGroup) =>
+      groupedActivitiesManager.getStream(feedGroup);
 
   /// The current reactions list as a stream.
-  Stream<List<Reaction>>? getReactionsStream(String lookupValue,
-      [String? kind]) {
+  Stream<List<Reaction>>? getReactionsStream(String lookupValue, [String? kind]) {
     return reactionsManager.getStream(lookupValue, kind);
   }
 
   /* LISTS */
 
   /// The current activities list.
-  List<GenericEnrichedActivity<A, Ob, T, Or>>? getActivities(
-          String feedGroup) =>
-      activitiesManager.getActivities(feedGroup);
+  List<GenericEnrichedActivity<A, Ob, T, Or>>? getActivities(String feedGroup) => activitiesManager.getActivities(feedGroup);
 
   /// The current grouped (aggregated) activities list
-  List<Group<GenericEnrichedActivity<A, Ob, T, Or>>>? getGroupedActivities(
-          String feedGroup) =>
+  List<Group<GenericEnrichedActivity<A, Ob, T, Or>>>? getGroupedActivities(String feedGroup) =>
       groupedActivitiesManager.getActivities(feedGroup);
 
   /// The current reactions list.
-  List<Reaction> getReactions(String lookupValue, [Reaction? reaction]) =>
-      reactionsManager.getReactions(lookupValue, reaction);
+  List<Reaction> getReactions(String lookupValue, [Reaction? reaction]) => reactionsManager.getReactions(lookupValue, reaction);
 
   /* LOADING CONTROLLERS */
 
   final _queryActivitiesLoadingController = BehaviorSubject.seeded(false);
 
-  final _queryGroupedActivitiesLoadingController =
-      BehaviorSubject.seeded(false);
+  final _queryGroupedActivitiesLoadingController = BehaviorSubject.seeded(false);
 
-  final Map<String, BehaviorSubject<bool>> _queryReactionsLoadingControllers =
-      {};
+  final Map<String, BehaviorSubject<bool>> _queryReactionsLoadingControllers = {};
 
   /* NEXT PARAMS */
 
   /// Retrieves the last stored paginated params, [NextParams], for the given
   /// [feedGroup].
   @visibleForTesting
-  NextParams? paginatedParamsGroupedActivites({required String feedGroup}) =>
-      groupedActivitiesManager.paginatedParams[feedGroup];
+  NextParams? paginatedParamsGroupedActivites({required String feedGroup}) => groupedActivitiesManager.paginatedParams[feedGroup];
 
   /// Retrieves the last stored paginated params, [NextParams], for the given
   /// [feedGroup].
   @visibleForTesting
-  NextParams? paginatedParamsActivities({required String feedGroup}) =>
-      activitiesManager.paginatedParams[feedGroup];
+  NextParams? paginatedParamsActivities({required String feedGroup}) => activitiesManager.paginatedParams[feedGroup];
 
   /// Retrieves the last stored paginated params, [NextParams], for the given
   /// [lookupValue].
   @visibleForTesting
-  NextParams? paginatedParamsReactions({required String lookupValue}) =>
-      reactionsManager.paginatedParams[lookupValue];
+  NextParams? paginatedParamsReactions({required String lookupValue}) => reactionsManager.paginatedParams[lookupValue];
 
   /* CLEARING */
 
   ///  Clear activities for a given `feedGroup`.
-  void clearActivities(String feedGroup) =>
-      activitiesManager.clearActivities(feedGroup);
+  void clearActivities(String feedGroup) => activitiesManager.clearActivities(feedGroup);
 
   ///  Clear all activities for the given `feedGroups`.
-  void clearAllActivities(List<String> feedGroups) =>
-      activitiesManager.clearAllActivities(feedGroups);
+  void clearAllActivities(List<String> feedGroups) => activitiesManager.clearAllActivities(feedGroups);
 
   /// Clear grouped/aggregated activities for the given `feedGroup`.
-  void clearGroupedActivities(String feedGroup) =>
-      groupedActivitiesManager.clearGroupedActivities(feedGroup);
+  void clearGroupedActivities(String feedGroup) => groupedActivitiesManager.clearGroupedActivities(feedGroup);
 
   ///  Clear all grouped/aggregated activities for the given `feedGroups`.
-  void clearAllGroupedActivities(List<String> feedGroups) =>
-      groupedActivitiesManager.clearAllGroupedActivities(feedGroups);
+  void clearAllGroupedActivities(List<String> feedGroups) => groupedActivitiesManager.clearAllGroupedActivities(feedGroups);
 
   /// Clear reactions for a given `lookupValue`.
-  void clearReactions(String lookupValue) =>
-      reactionsManager.clearReactions(lookupValue);
+  void clearReactions(String lookupValue) => reactionsManager.clearReactions(lookupValue);
 
   /// Clear all reactions for the given `lookupValues
-  void clearAllReactions(List<String> lookupValues) =>
-      reactionsManager.clearAllReactions(lookupValues);
+  void clearAllReactions(List<String> lookupValues) => reactionsManager.clearAllReactions(lookupValues);
 
   /* STREAMS */
 
   /// The stream notifying the state of queryReactions call.
-  Stream<bool> queryReactionsLoadingFor(String activityId) =>
-      _queryReactionsLoadingControllers[activityId]!;
+  Stream<bool> queryReactionsLoadingFor(String activityId) => _queryReactionsLoadingControllers[activityId]!;
 
   /// The stream notifying the state of queryActivities call.
-  Stream<bool> get queryActivitiesLoading =>
-      _queryActivitiesLoadingController.stream;
+  Stream<bool> get queryActivitiesLoading => _queryActivitiesLoadingController.stream;
 
   /// The stream notifying the state of queryActivities call.
-  Stream<bool> get queryGroupedActivitiesLoading =>
-      _queryActivitiesLoadingController.stream;
+  Stream<bool> get queryGroupedActivitiesLoading => _queryActivitiesLoadingController.stream;
 
   /* ACTIVITIES */
 
@@ -240,8 +216,7 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
     // TODO(Sacha): this is a hack.
     // We should Merge activity and enriched activity classes together
     // to avoid this from hapenning
-    final enrichedActivity = await flatFeed
-        .getEnrichedActivityDetail<A, Ob, T, Or>(addedActivity.id!);
+    final enrichedActivity = await flatFeed.getEnrichedActivityDetail<A, Ob, T, Or>(addedActivity.id!);
 
     final _activities = (getActivities(feedGroup) ?? []).toList();
 
@@ -280,8 +255,7 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
     // TODO(Sacha): this is a hack.
     // We should Merge activity and enriched activity classes together
     // to avoid this from hapenning
-    final enrichedGroupedActivity = await aggregatedFeed
-        .getEnrichedActivityDetail<A, Ob, T, Or>(addedActivity.id!);
+    final enrichedGroupedActivity = await aggregatedFeed.getEnrichedActivityDetail<A, Ob, T, Or>(addedActivity.id!);
 
     final _groupedActivities = (getGroupedActivities(feedGroup) ?? []).toList();
 
@@ -362,14 +336,11 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
     //     label: kind, foreignId: activity.foreignId, feedGroup: feedGroup);
     final _reactions = getReactions(lookupValue, reaction);
     final reactionPath = _reactions.getReactionPath(reaction);
-    final indexPath = _reactions
-        .indexWhere((r) => r.id! == reaction.id); //TODO: handle null safety
+    final indexPath = _reactions.indexWhere((r) => r.id! == reaction.id); //TODO: handle null safety
 
     final reactionCounts = reactionPath.childrenCounts.unshiftByKind(kind);
-    final latestReactions =
-        reactionPath.latestChildren.unshiftByKind(kind, childReaction);
-    final ownReactions =
-        reactionPath.ownChildren.unshiftByKind(kind, childReaction);
+    final latestReactions = reactionPath.latestChildren.unshiftByKind(kind, childReaction);
+    final ownReactions = reactionPath.ownChildren.unshiftByKind(kind, childReaction);
 
     final updatedReaction = reactionPath.copyWith(
       ownChildren: ownReactions,
@@ -407,15 +378,11 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
     //     label: kind, foreignId: activity.foreignId, feedGroup: feedGroup);
     final _reactions = getReactions(lookupValue, parentReaction);
     final reactionPath = _reactions.getReactionPath(parentReaction);
-    final indexPath = _reactions.indexWhere(
-        (r) => r.id! == parentReaction.id); //TODO: handle null safety
+    final indexPath = _reactions.indexWhere((r) => r.id! == parentReaction.id); //TODO: handle null safety
 
-    final reactionCounts =
-        reactionPath.childrenCounts.unshiftByKind(kind, ShiftType.decrement);
-    final latestReactions = reactionPath.latestChildren
-        .unshiftByKind(kind, childReaction, ShiftType.decrement);
-    final ownReactions = reactionPath.ownChildren
-        .unshiftByKind(kind, childReaction, ShiftType.decrement);
+    final reactionCounts = reactionPath.childrenCounts.unshiftByKind(kind, ShiftType.decrement);
+    final latestReactions = reactionPath.latestChildren.unshiftByKind(kind, childReaction, ShiftType.decrement);
+    final ownReactions = reactionPath.ownChildren.unshiftByKind(kind, childReaction, ShiftType.decrement);
 
     final updatedReaction = reactionPath.copyWith(
       ownChildren: ownReactions,
@@ -447,22 +414,17 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
     required String feedGroup,
   }) async {
     await client.reactions.delete(reaction.id!);
-    await trackAnalytics(
-        label: 'un$kind', foreignId: activity.foreignId, feedGroup: feedGroup);
+    await trackAnalytics(label: 'un$kind', foreignId: activity.foreignId, feedGroup: feedGroup);
     final _activities = getActivities(feedGroup) ?? [activity];
     final activityPath = _activities.getEnrichedActivityPath(activity);
 
-    final indexPath = _activities
-        .indexWhere((a) => a.id! == activity.id); //TODO: handle null safety
+    final indexPath = _activities.indexWhere((a) => a.id! == activity.id); //TODO: handle null safety
 
-    final reactionCounts =
-        activityPath.reactionCounts.unshiftByKind(kind, ShiftType.decrement);
+    final reactionCounts = activityPath.reactionCounts.unshiftByKind(kind, ShiftType.decrement);
 
-    final latestReactions = activityPath.latestReactions
-        .unshiftByKind(kind, reaction, ShiftType.decrement);
+    final latestReactions = activityPath.latestReactions.unshiftByKind(kind, reaction, ShiftType.decrement);
 
-    final ownReactions = activityPath.ownReactions
-        .unshiftByKind(kind, reaction, ShiftType.decrement);
+    final ownReactions = activityPath.ownReactions.unshiftByKind(kind, reaction, ShiftType.decrement);
 
     final updatedActivity = activityPath.copyWith(
       ownReactions: ownReactions,
@@ -473,8 +435,7 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
     // remove reaction from the stream
     reactionsManager.unshiftById(activity.id!, reaction, ShiftType.decrement);
 
-    activitiesManager.update(
-        feedGroup, _activities.updateIn(updatedActivity, indexPath));
+    activitiesManager.update(feedGroup, _activities.updateIn(updatedActivity, indexPath));
   }
 
   /* REACTIONS */
@@ -497,20 +458,15 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
     List<FeedId>? targetFeeds,
     Map<String, Object>? data,
   }) async {
-    final reaction = await client.reactions
-        .add(kind, activity.id!, targetFeeds: targetFeeds, data: data);
-    await trackAnalytics(
-        label: kind, foreignId: activity.foreignId, feedGroup: feedGroup);
+    final reaction = await client.reactions.add(kind, activity.id!, targetFeeds: targetFeeds, data: data);
+    await trackAnalytics(label: kind, foreignId: activity.foreignId, feedGroup: feedGroup);
     final _activities = getActivities(feedGroup) ?? [activity];
     final activityPath = _activities.getEnrichedActivityPath(activity);
-    final indexPath = _activities
-        .indexWhere((a) => a.id! == activity.id); //TODO: handle null safety
+    final indexPath = _activities.indexWhere((a) => a.id! == activity.id); //TODO: handle null safety
 
     final reactionCounts = activityPath.reactionCounts.unshiftByKind(kind);
-    final latestReactions =
-        activityPath.latestReactions.unshiftByKind(kind, reaction);
-    final ownReactions =
-        activityPath.ownReactions.unshiftByKind(kind, reaction);
+    final latestReactions = activityPath.latestReactions.unshiftByKind(kind, reaction);
+    final ownReactions = activityPath.ownReactions.unshiftByKind(kind, reaction);
 
     final updatedActivity = activityPath.copyWith(
       ownReactions: ownReactions,
@@ -543,8 +499,7 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
         : print('warning: analytics: not enabled'); //TODO:logger
   }
 
-  @Deprecated(
-      '''use `refreshPaginatedReactions` instead to refresh reactions '''
+  @Deprecated('''use `refreshPaginatedReactions` instead to refresh reactions '''
       ''', and `loadMoreReactions` to load more reactions''')
   @internal
   Future<void> queryReactions(
@@ -556,8 +511,7 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
     EnrichmentFlags? flags,
   }) async {
     reactionsManager.init(lookupValue);
-    _queryReactionsLoadingControllers[lookupValue] =
-        BehaviorSubject.seeded(false);
+    _queryReactionsLoadingControllers[lookupValue] = BehaviorSubject.seeded(false);
     if (_queryReactionsLoadingControllers[lookupValue]?.value == true) return;
 
     if (reactionsManager.hasValue(lookupValue)) {
@@ -587,8 +541,7 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
     }
   }
 
-  @Deprecated(
-      '''use `refreshPaginatedEnrichedActivities` instead to refresh enriched '''
+  @Deprecated('''use `refreshPaginatedEnrichedActivities` instead to refresh enriched '''
       '''activities, and `loadMoreEnrichedActivities` to load more paginated activities''')
   Future<void> queryEnrichedActivities({
     required String feedGroup,
@@ -610,9 +563,7 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
     }
     _queryActivitiesLoadingController.add(true);
     try {
-      final activitiesResponse = await client
-          .flatFeed(feedGroup, userId)
-          .getEnrichedActivities<A, Ob, T, Or>(
+      final activitiesResponse = await client.flatFeed(feedGroup, userId).getEnrichedActivities<A, Ob, T, Or>(
             limit: limit,
             offset: offset,
             session: session,
@@ -621,8 +572,7 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
             ranking: ranking,
           );
       activitiesManager.add(feedGroup, activitiesResponse);
-      if (activitiesManager.hasValue(feedGroup) &&
-          _queryActivitiesLoadingController.value) {
+      if (activitiesManager.hasValue(feedGroup) && _queryActivitiesLoadingController.value) {
         _queryActivitiesLoadingController.sink.add(false);
       }
     } catch (e, stk) {
@@ -665,13 +615,11 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
     }
     if (!reactionsManager.hasValue(lookupValue)) {
       reactionsManager.init(lookupValue);
-      _queryReactionsLoadingControllers[lookupValue] =
-          BehaviorSubject.seeded(false);
+      _queryReactionsLoadingControllers[lookupValue] = BehaviorSubject.seeded(false);
     }
     _queryReactionsLoadingControllers[lookupValue]?.add(true);
     try {
-      final reactionsResponse =
-          await client.reactions.paginatedFilter<A, Ob, T, Or>(
+      final reactionsResponse = await client.reactions.paginatedFilter<A, Ob, T, Or>(
         lookupAttr,
         lookupValue,
         filter: filter,
@@ -681,8 +629,7 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
       );
       NextParams? nextParams;
       try {
-        if (reactionsResponse.next != null &&
-            reactionsResponse.next!.isNotEmpty) {
+        if (reactionsResponse.next != null && reactionsResponse.next!.isNotEmpty) {
           nextParams = parseNext(reactionsResponse.next!);
         }
         reactionsManager.paginatedParams[lookupValue] = nextParams;
@@ -698,8 +645,7 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
         };
         reactionsManager.add(lookupValue, allReactions.toList());
 
-        if (reactionsManager.hasValue(lookupValue) &&
-            _queryReactionsLoadingControllers[lookupValue]!.value) {
+        if (reactionsManager.hasValue(lookupValue) && _queryReactionsLoadingControllers[lookupValue]!.value) {
           _queryReactionsLoadingControllers[lookupValue]!.sink.add(false);
         }
       }
@@ -750,10 +696,9 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
       activitiesManager.init(feedGroup);
     }
     _queryActivitiesLoadingController.add(true);
+
     try {
-      final activitiesResponse = await client
-          .flatFeed(feedGroup, userId)
-          .getPaginatedEnrichedActivities<A, Ob, T, Or>(
+      final activitiesResponse = await client.flatFeed(feedGroup, userId).getPaginatedEnrichedActivities<A, Ob, T, Or>(
             limit: limit,
             offset: offset,
             session: session,
@@ -763,13 +708,13 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
           );
       NextParams? nextParams;
       try {
-        if (activitiesResponse.next != null &&
-            activitiesResponse.next!.isNotEmpty) {
+        if (activitiesResponse.next != null && activitiesResponse.next?.isNotEmpty == true) {
           nextParams = parseNext(activitiesResponse.next!);
         }
         activitiesManager.paginatedParams[feedGroup] = nextParams;
       } catch (e) {
         // TODO:(gordon) add logs
+        debugPrint('Error parsing next: $e');
       }
       if (activitiesResponse.results != null) {
         final allActivities = <GenericEnrichedActivity<A, Ob, T, Or>>{
@@ -778,8 +723,7 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
         };
         activitiesManager.add(feedGroup, allActivities.toList());
 
-        if (activitiesManager.hasValue(feedGroup) &&
-            _queryActivitiesLoadingController.value) {
+        if (activitiesManager.hasValue(feedGroup) && _queryActivitiesLoadingController.value) {
           _queryActivitiesLoadingController.sink.add(false);
         }
       }
@@ -828,9 +772,7 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
     }
     _queryGroupedActivitiesLoadingController.add(true);
     try {
-      final activitiesGroupResponse = await client
-          .aggregatedFeed(feedGroup, userId)
-          .getPaginatedActivities<A, Ob, T, Or>(
+      final activitiesGroupResponse = await client.aggregatedFeed(feedGroup, userId).getPaginatedActivities<A, Ob, T, Or>(
             limit: limit,
             offset: offset,
             session: session,
@@ -839,8 +781,7 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
           );
       NextParams? nextParams;
       try {
-        if (activitiesGroupResponse.next != null &&
-            activitiesGroupResponse.next!.isNotEmpty) {
+        if (activitiesGroupResponse.next != null && activitiesGroupResponse.next!.isNotEmpty) {
           nextParams = parseNext(activitiesGroupResponse.next!);
         }
         groupedActivitiesManager.paginatedParams[feedGroup] = nextParams;
@@ -848,15 +789,13 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
         // TODO:(gordon) add logs
       }
       if (activitiesGroupResponse.results != null) {
-        final allGroupedActivities =
-            <Group<GenericEnrichedActivity<A, Ob, T, Or>>>{
+        final allGroupedActivities = <Group<GenericEnrichedActivity<A, Ob, T, Or>>>{
           if (!refresh) ...?groupedActivitiesManager.getActivities(feedGroup),
           ...?activitiesGroupResponse.results
         };
         groupedActivitiesManager.add(feedGroup, allGroupedActivities.toList());
 
-        if (groupedActivitiesManager.hasValue(feedGroup) &&
-            _queryGroupedActivitiesLoadingController.value) {
+        if (groupedActivitiesManager.hasValue(feedGroup) && _queryGroupedActivitiesLoadingController.value) {
           _queryGroupedActivitiesLoadingController.sink.add(false);
         }
       }
@@ -974,7 +913,7 @@ class GenericFeedBloc<A, Ob, T, Or> extends Equatable {
     final nextParams = paginatedParamsActivities(feedGroup: feedGroup);
 
     if (nextParams == null) {
-      // TODO(gordon): add logs
+      debugPrint('Next params are null');
       return;
     }
 

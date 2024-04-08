@@ -4,7 +4,7 @@ import 'package:stream_feed/src/core/models/filter.dart';
 class NextParams extends Equatable {
   const NextParams({
     required this.limit,
-    required this.idLT,
+    this.idLT,
     this.ranking,
     this.withOwnReactions,
     this.withRecentReactions,
@@ -16,7 +16,7 @@ class NextParams extends Equatable {
   });
 
   final int limit;
-  final Filter idLT;
+  final Filter? idLT;
   final int? offset;
   final String? ranking;
   final bool? withOwnReactions;
@@ -27,5 +27,5 @@ class NextParams extends Equatable {
   final String? reactionKindsFilter;
 
   @override
-  List<Object?> get props => [limit, idLT];
+  List<Object?> get props => [limit, idLT, offset, ranking];
 }
